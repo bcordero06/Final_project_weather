@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Weather tracker"
+    return "This is the Weather tracker"
 
 @app.route('/ingest', methods=['POST'])
 def ingest():
