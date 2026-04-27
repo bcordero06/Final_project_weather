@@ -1,6 +1,10 @@
-#main file
 import requests
-from dataclasses import dataclass 
+import os
+from dotenv import load_dotenv
+from dataclasses import dataclass
+from Db_manager import create_table, insert_weather, get_all_observations, get_observations_by_id
+
+load_dotenv()
 
 @dataclass
 class weather_info:
@@ -25,7 +29,7 @@ class weather_info:
                   f"Elevation: {self.elevation}\n"
                   f"observation Time: {self.observation_time}\n"
              )
-
+        
 def get_weather(city, country, count=1):
     geo_url = "https://geocoding-api.open-meteo.com/v1/search"
     geo_params = {
@@ -51,7 +55,6 @@ def get_weather(city, country, count=1):
         "latitude": latitude,
         "longitude": longitude,
     }
-
     weather_reponse = requests.get(weather_url, params=weather_params)
     weather_data = weather_reponse.json()
 
@@ -69,7 +72,32 @@ def get_weather(city, country, count=1):
     )
     
     return weather_object
+ 
+cities = [
+    {"city": "Barcelona", "country": "Spain"},
+    {"city": "Cuenca", "country": "Ecuador"},
+    {"city": "Guayaquil", "country": "Ecuador"},
+    {"city": "Quito", "country": "Ecuador"},
+    {"city": "Ambato", "country": "Ecuador"},
+    {"city": "Loja", "country": "Ecuador"},
+    {"city": "Stockholm", "country": "Sweden"},
+    {"city": "Chicago", "country": "United States"},
+    {"city": "Puebla", "country": "Mexico"},
+    {"city": "Bogota", "country": "Colombia"},
+]
 
-results = get_weather("Chicago", "United States")
-print(results)
+if __name__ == "__main__":
+     
+    create_table()
 
+    for city in cities:
+        result = get_weather(city["city"], city["country"])
+        insert_weather(
+            result.city,
+            result.country,
+            result.temperature,
+            0,
+            result.observation_time
+          )
+    
+    get_all_observations()
