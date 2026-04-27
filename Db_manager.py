@@ -11,7 +11,7 @@ DB_PASSWORD = os.environ.get('DB_PASSWORD')
 DB_HOST = os.environ.get('DB_HOST')
 DB_PORT = os.environ.get('DB_PORT')
 
-#Creates the table
+#Creates the weather_info table in PostgreSQL
 def create_table():
     connection = None
     cursor = None
@@ -46,7 +46,7 @@ def create_table():
             cursor.close()
             connection.close()
 
-# Insterts the information of the weather
+# Inserts a new weatehr observation into the table
 def insert_weather(city, country, temperature, humidity, observation_date):
     try:
         connection = psycopg.connect(
@@ -73,7 +73,7 @@ def insert_weather(city, country, temperature, humidity, observation_date):
         if connection:
             cursor.close()
             connection.close()
-# selects all of the information
+# selects all of the information from the table and returns it
 def get_all_observations():
     try:
         connection = psycopg.connect(
@@ -104,7 +104,7 @@ def get_all_observations():
         if connection:
             cursor.close()
             connection.close()
-
+#Returns every sing observation matching the give id 
 def get_observations_by_id(obs_id):
     try:
         connection = psycopg.connect(
@@ -136,7 +136,7 @@ def get_observations_by_id(obs_id):
         if connection:
             cursor.close()
             connection.close()
-#updates the temperature and humidity
+#updates the temperature and humidity for the id thats given
 def update_weather(obs_id, temperature, humidity):
     try:
         connection = psycopg.connect(
@@ -171,7 +171,7 @@ def update_weather(obs_id, temperature, humidity):
             cursor.close()
             connection.close()
 
-# Deletes a specific weather 
+# Deletes a specific weather observation by its id
 def delete_weather(obs_id):
     try:
         connection = psycopg.connect(

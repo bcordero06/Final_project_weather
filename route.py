@@ -4,7 +4,7 @@ from Db import get_weather
 import requests
 
 app = Flask(__name__)
-
+#displays all of the weather observation from the index.html
 @app.route('/')
 def home():
     results = get_all_observations()
@@ -13,7 +13,7 @@ def home():
 @app.route('/about')
 def about():
     return 'this is the about page.'
-
+#fetches the weather for a city
 @app.route('/ingest', methods=['POST'])
 def ingest():
 
@@ -34,12 +34,12 @@ def ingest():
         "country": result.country,
         "temperature": result.temperature
     }), 201
-
+#returns all the weather with the observation route
 @app.route('/observations', methods=['GET'] )
 def observations():
     results = get_all_observations(id)
     return jsonify(results)
-
+#gets the observation with id route which gives a single observation
 @app.route('/observations/<int:id>', methods=['GET'])
 def get_observation():
 
@@ -49,12 +49,12 @@ def get_observation():
         abort(404)
 
     return jsonify(result)
-
+#Delete route and removes a weather observation
 @app.route('/observations/<int:id>', methods=['DELETE'])
 def delete_observations(id):
     delete_weather(id)
     return jsonify({"deleted": id})
-
+#updates temperature and humidity
 @app.route('/observations/<int:id>', methods=['PUT'])
 def update_observations(id):
 

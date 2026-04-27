@@ -29,7 +29,7 @@ class weather_info:
                   f"Elevation: {self.elevation}\n"
                   f"observation Time: {self.observation_time}\n"
              )
-        
+# call for Geocoding Api
 def get_weather(city, country, count=1):
     geo_url = "https://geocoding-api.open-meteo.com/v1/search"
     geo_params = {
@@ -72,7 +72,7 @@ def get_weather(city, country, count=1):
     )
     
     return weather_object
- 
+ #10 cities to fetch the weather
 cities = [
     {"city": "Barcelona", "country": "Spain"},
     {"city": "Cuenca", "country": "Ecuador"},
@@ -85,7 +85,7 @@ cities = [
     {"city": "Puebla", "country": "Mexico"},
     {"city": "Bogota", "country": "Colombia"},
 ]
-
+#main entry point where the file runs 
 if __name__ == "__main__":
      
     create_table()

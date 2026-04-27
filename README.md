@@ -40,4 +40,15 @@ python3 route.py
 
 5. See the weather for the 10 cities that are around the world
 
+## Project Structure
+```
+Final_project_weather/
+├──tempelates/
+|   ├──index.html #HTML file showing the page    
+├── .env #credentials
+├── Db_manager.py #all database functions
+├── Db.py #fetches weather from API
+├── main.py #main runner file
+├──routes.py #routes with flask and api endpoints
+
 

@@ -1,7 +1,7 @@
 #main file
 import requests
 from dataclasses import dataclass 
-
+#weather_info datebase that stores all of the weather fields
 @dataclass
 class weather_info:
         def __init__(self,city,country,latitude,longitude,temperature,windspeed,elevation,observation_time):
@@ -13,7 +13,7 @@ class weather_info:
             self.windspeed = windspeed
             self.elevation = elevation
             self.observation_time = observation_time
-        
+        #Returns the weather data in a formatted string
         def __str__(self):
              return(
                   f"City: {self.city}\n"
