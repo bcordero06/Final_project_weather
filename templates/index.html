@@ -101,9 +101,13 @@
                 <tr>
                     <th>City</th>
                     <th>Country</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
                     <th>Temperature (°C)</th>
+                    <th>Windspeed</th>
                     <th>Humidity</th>
                     <th>Date</th>
+                    <th>Notes</th>
                 </tr>
             </thead>
             <tbody>
@@ -114,6 +118,10 @@
                     <td>{{ row[2] }}</td>
                     <td>{{ row[3] }}</td>
                     <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>{{ row[8] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

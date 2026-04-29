@@ -95,9 +95,13 @@ if __name__ == "__main__":
         insert_weather(
             result.city,
             result.country,
+            result.latitude,
+            result.longitude,
             result.temperature,
+            result.windspeed,
             0,
-            result.observation_time
+            result.observation_time,
+            None
           )
     
     get_all_observations()

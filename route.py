@@ -23,25 +23,33 @@ def ingest():
     result = get_weather(city, country)
 
     insert_weather(
-        result.city,
-        result.country,
-        result.temperature,
-        0,
-        result.observation_time
+            result.city,
+            result.country,
+            result.latitude,
+            result.longitude,
+            result.temperature,
+            result.windspeed,
+            0,
+            result.observation_time,
+            None
     )
     return jsonify({
         "city": result.city,
         "country": result.country,
-        "temperature": result.temperature
+        "latitude": result.latitude,
+        "longitude": result.longitude,
+        "temperature": result.temperature,
+        "windspeed": result.windspeed,
+        "observation_time": result.observation_time
     }), 201
 #returns all the weather with the observation route
 @app.route('/observations', methods=['GET'] )
 def observations():
-    results = get_all_observations(id)
+    results = get_all_observations()
     return jsonify(results)
 #gets the observation with id route which gives a single observation
 @app.route('/observations/<int:id>', methods=['GET'])
-def get_observation():
+def get_observation(id):
 
     result = get_observations_by_id(id)
 
@@ -60,13 +68,12 @@ def update_observations(id):
 
     data = request.get_json()
 
-    update_weather(id, data["temperature"], data["humidity"])
+    update_weather(id, data["notes"])
 
 
     return jsonify({
         "id": id,
-        "temperature": data["temperature"],
-        "humidity": data["humidity"]
+        "notes": data["notes"]
     })
 
 if __name__ == "__main__":

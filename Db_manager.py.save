@@ -27,13 +27,9 @@ def create_table():
                         weather_info_id SERIAL PRIMARY KEY,
                         city VARCHAR(100),
                         country VARCHAR(100),
-                        latitude DECIMAL(9,6),
-                        longitude Decimal(9, 6),
                         temperature Decimal(5,2),
-                        windspeed Decimal(5,2),
                         humidity INT,
-                        observation_date TIMESTAMP,
-                        notes TEXT
+                        observation_date TIMESTAMP
                         );
                        """)
         
@@ -51,7 +47,7 @@ def create_table():
             connection.close()
 
 # Inserts a new weatehr observation into the table
-def insert_weather(city, country, latitude, longitude, temperature, windspeed, humidity, observation_date, notes):
+def insert_weather(city, country, temperature, humidity, observation_date):
     try:
         connection = psycopg.connect(
             dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT
@@ -60,10 +56,10 @@ def insert_weather(city, country, latitude, longitude, temperature, windspeed, h
         cursor = connection.cursor()
 
         insert_query = """
-        INSERT INTO weather_info (city, country, latitude, longitude, temperature, windspeed, humidity, observation_date, notes)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)RETURNING weather_info_id;
+        INSERT INTO weather_info (city, country, temperature, humidity, observation_date)
+        VALUES (%s, %s, %s, %s, %s)RETURNING weather_info_id;
         """
-        cursor.execute(insert_query, (city, country, latitude, longitude, temperature, windspeed, humidity, observation_date, notes))
+        cursor.execute(insert_query, (city, country, temperature, humidity, observation_date))
         new_id = cursor.fetchone()[0]
         print (f"New record inserted with ID: {new_id}")
         connection.commit()
@@ -87,8 +83,7 @@ def get_all_observations():
         cursor = connection.cursor()
             
         select_query = """
-        SELECT city, country, latitude, longitude, 
-        temperature, windspeed, humidity, observation_date, notes
+        SELECT city, country, temperature, humidity, observation_date
         FROM weather_info
         ORDER By observation_date DESC;
         """
@@ -119,8 +114,7 @@ def get_observations_by_id(obs_id):
         cursor = connection.cursor()
 
         select_query = """
-        SELECT city, country, latitude, longitude, 
-        temperature, windspeed, humidity, observation_date, notes
+        SELECT city, country, temperature, humidity, observation_date
         FROM weather_info
         WHERE weather_info_id = %s
         ORDER By observation_date DESC;
@@ -143,7 +137,7 @@ def get_observations_by_id(obs_id):
             cursor.close()
             connection.close()
 #updates the temperature and humidity for the id thats given
-def update_weather(obs_id, notes):
+def update_weather(obs_id, temperature, humidity):
     try:
         connection = psycopg.connect(
             dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT
@@ -153,10 +147,11 @@ def update_weather(obs_id, notes):
 
         update_query = """
         UPDATE weather_info
-        SET notes = %s
+        SET temperature = %s,
+        humidity = %s
         WHERE weather_info_id = %s;
          """
-        cursor.execute(update_query, (notes, obs_id))
+        cursor.execute(update_query, (temperature, humidity, obs_id))
 
         rows_affected = cursor.rowcount
 
@@ -205,3 +200,4 @@ def delete_weather(obs_id):
         if connection:
             cursor.close()
             connection.close()
+
