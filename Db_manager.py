@@ -31,7 +31,6 @@ def create_table():
                         longitude Decimal(9, 6),
                         temperature Decimal(5,2),
                         windspeed Decimal(5,2),
-                        humidity INT,
                         observation_date TIMESTAMP,
                         notes TEXT
                         );
@@ -51,7 +50,7 @@ def create_table():
             connection.close()
 
 # Inserts a new weatehr observation into the table
-def insert_weather(city, country, latitude, longitude, temperature, windspeed, humidity, observation_date, notes):
+def insert_weather(city, country, latitude, longitude, temperature, windspeed,observation_date, notes):
     try:
         connection = psycopg.connect(
             dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT
@@ -60,10 +59,10 @@ def insert_weather(city, country, latitude, longitude, temperature, windspeed, h
         cursor = connection.cursor()
 
         insert_query = """
-        INSERT INTO weather_info (city, country, latitude, longitude, temperature, windspeed, humidity, observation_date, notes)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)RETURNING weather_info_id;
+        INSERT INTO weather_info (city, country, latitude, longitude, temperature, windspeed, observation_date, notes)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)RETURNING weather_info_id;
         """
-        cursor.execute(insert_query, (city, country, latitude, longitude, temperature, windspeed, humidity, observation_date, notes))
+        cursor.execute(insert_query, (city, country, latitude, longitude, temperature, windspeed, observation_date, notes))
         new_id = cursor.fetchone()[0]
         print (f"New record inserted with ID: {new_id}")
         connection.commit()
@@ -88,7 +87,7 @@ def get_all_observations():
             
         select_query = """
         SELECT city, country, latitude, longitude, 
-        temperature, windspeed, humidity, observation_date, notes
+        temperature, windspeed,observation_date, notes
         FROM weather_info
         ORDER By observation_date DESC;
         """
@@ -120,7 +119,7 @@ def get_observations_by_id(obs_id):
 
         select_query = """
         SELECT city, country, latitude, longitude, 
-        temperature, windspeed, humidity, observation_date, notes
+        temperature, windspeed,observation_date, notes
         FROM weather_info
         WHERE weather_info_id = %s
         ORDER By observation_date DESC;

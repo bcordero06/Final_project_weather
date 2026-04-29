@@ -29,7 +29,6 @@ def ingest():
             result.longitude,
             result.temperature,
             result.windspeed,
-            0,
             result.observation_time,
             None
     )
@@ -40,7 +39,8 @@ def ingest():
         "longitude": result.longitude,
         "temperature": result.temperature,
         "windspeed": result.windspeed,
-        "observation_time": result.observation_time
+        "observation_time": result.observation_time,
+        "notes": None
     }), 201
 #returns all the weather with the observation route
 @app.route('/observations', methods=['GET'] )

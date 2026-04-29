@@ -99,7 +99,6 @@ if __name__ == "__main__":
             result.longitude,
             result.temperature,
             result.windspeed,
-            0,
             result.observation_time,
             None
           )
