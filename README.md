@@ -4,7 +4,7 @@ A Python web application that fetches real time weather date of cites in a datab
 ## features
 - Fetches weather data from Open-Metro API
 - Stores the data in PostgresSQL database
-- Displays all
+- Displays all weather details from different countries  
 
 ## Installation
 - PostgreSQL
